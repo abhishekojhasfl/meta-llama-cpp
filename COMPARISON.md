@@ -1,8 +1,8 @@
-# meta-ollama vs meta-ollama-cpp: Detailed Comparison
+# meta-ollama vs meta-llama-cpp: Detailed Comparison
 
 ## Overview
 
-This document provides a comprehensive comparison between the hypothetical `meta-ollama` layer (based on the official Ollama Go binary) and the `meta-ollama-cpp` layer (based on llama.cpp).
+This document provides a comprehensive comparison between the hypothetical `meta-ollama` layer (based on the official Ollama Go binary) and the `meta-llama-cpp` layer (based on llama.cpp).
 
 ## Architecture Comparison
 
@@ -35,7 +35,7 @@ This document provides a comprehensive comparison between the hypothetical `meta
 - Larger footprint but more features
 - GPU acceleration available
 
-### meta-ollama-cpp (C++-based)
+### meta-llama-cpp (C++-based)
 
 ```
 ┌─────────────────────────────────────┐
@@ -66,7 +66,7 @@ This document provides a comprehensive comparison between the hypothetical `meta
 
 ## Feature Comparison
 
-| Feature | meta-ollama | meta-ollama-cpp |
+| Feature | meta-ollama | meta-llama-cpp |
 |---------|-------------|-----------------|
 | **Binary Size** | ~100-150MB | ~5-15MB |
 | **Runtime Deps** | Go runtime, glibc | glibc, libstdc++ |
@@ -96,7 +96,7 @@ This document provides a comprehensive comparison between the hypothetical `meta
 - Pure CPU inference
 - Long-term battery devices
 
-### When to Use meta-ollama-cpp
+### When to Use meta-llama-cpp
 
 ✅ **Best For:**
 - Embedded Linux devices
@@ -128,7 +128,7 @@ ollama
 └── systemd (for service)
 ```
 
-**meta-ollama-cpp:**
+**meta-llama-cpp:**
 ```
 llama-cpp
 ├── glibc
@@ -136,7 +136,7 @@ llama-cpp
 ├── libcurl (for server)
 └── systemd (for service)
 
-ollama-cpp-server
+llama-cpp-server
 ├── llama-cpp
 ├── bash
 └── systemd
@@ -157,7 +157,7 @@ do_install() {
 }
 ```
 
-**meta-ollama-cpp Recipe Approach:**
+**meta-llama-cpp Recipe Approach:**
 ```bitbake
 # More complex - full build
 inherit cmake systemd
@@ -179,21 +179,21 @@ do_install() {
 
 **Inference Speed (tokens/sec on CPU):**
 - meta-ollama: 10-15 tokens/sec (7B model on 4-core ARM)
-- meta-ollama-cpp: 15-25 tokens/sec (same hardware)
+- meta-llama-cpp: 15-25 tokens/sec (same hardware)
 
 **Memory Footprint (7B Q4 model):**
 - meta-ollama: ~4.5GB (model + runtime)
-- meta-ollama-cpp: ~4.0GB (model + minimal runtime)
+- meta-llama-cpp: ~4.0GB (model + minimal runtime)
 
 **Storage Requirements:**
 - meta-ollama: ~150MB (binary + deps)
-- meta-ollama-cpp: ~15MB (binary + deps)
+- meta-llama-cpp: ~15MB (binary + deps)
 
 ## API Compatibility
 
 ### Supported Endpoints
 
-| Endpoint | meta-ollama | meta-ollama-cpp |
+| Endpoint | meta-ollama | meta-llama-cpp |
 |----------|-------------|-----------------|
 | `/api/generate` | ✅ Full | ✅ Compatible |
 | `/api/chat` | ✅ Full | ✅ Compatible |
@@ -206,7 +206,7 @@ do_install() {
 | `/api/delete` | ✅ Full | ⚠️  File delete |
 | `/api/embeddings` | ✅ Full | ✅ Compatible |
 
-### API Limitations in meta-ollama-cpp
+### API Limitations in meta-llama-cpp
 
 1. **Model Management:**
    - No automatic model pulling from registry
@@ -235,7 +235,7 @@ Storage: 20GB (5GB app + 15GB models)
 Network: Required for model pulling
 ```
 
-**meta-ollama-cpp:**
+**meta-llama-cpp:**
 ```
 CPU:  1+ cores
 RAM:  2GB minimum, 4GB recommended
@@ -250,7 +250,7 @@ Network: Optional (manual downloads)
 - RAM: 16GB+
 - GPU: NVIDIA (CUDA) or AMD (ROCm)
 
-**For meta-ollama-cpp:**
+**For meta-llama-cpp:**
 - Embedded: ARM64 (Raspberry Pi 4+)
 - RAM: 4-8GB
 - CPU: Multi-core ARM Cortex-A72+
@@ -266,7 +266,7 @@ bitbake ollama-bin
 # Primarily network-bound
 ```
 
-**meta-ollama-cpp:**
+**meta-llama-cpp:**
 ```bash
 bitbake llama-cpp
 # ~20-45 minutes (compilation)
@@ -283,10 +283,10 @@ Base image:     500MB
 Total:          ~4.7GB minimum
 ```
 
-**Adding meta-ollama-cpp to image:**
+**Adding meta-llama-cpp to image:**
 ```
 Base image:        500MB
-+ meta-ollama-cpp: 515MB (+15MB)
++ meta-llama-cpp: 515MB (+15MB)
 + Models:          4GB per 7B model
 Total:             ~4.5GB minimum
 ```
@@ -306,20 +306,20 @@ IMAGE_INSTALL:append = " ollama-bin"
 IMAGE_ROOTFS_EXTRA_SPACE = "15728640"  # 15GB
 ```
 
-**Using meta-ollama-cpp:**
+**Using meta-llama-cpp:**
 ```conf
 # layers.conf
-sources/meta-ollama-cpp
+sources/meta-llama-cpp
 
 # build.conf or local.conf
 MACHINE ?= "qemuarm64"
-IMAGE_INSTALL:append = " llama-cpp ollama-cpp-server"
+IMAGE_INSTALL:append = " llama-cpp llama-cpp-server"
 IMAGE_ROOTFS_EXTRA_SPACE = "10485760"  # 10GB
 ```
 
 ## Migration Path
 
-### From meta-ollama to meta-ollama-cpp
+### From meta-ollama to meta-llama-cpp
 
 1. **Prepare Models:**
    ```bash
@@ -336,13 +336,13 @@ IMAGE_ROOTFS_EXTRA_SPACE = "10485760"  # 10GB
 3. **Rebuild:**
    ```bash
    bitbake -c cleansstate ollama-bin
-   bitbake llama-cpp ollama-cpp-server
+   bitbake llama-cpp llama-cpp-server
    ```
 
 4. **Deploy:**
    ```bash
    # Copy models to /var/lib/ollama/models
-   systemctl start ollama-cpp-server
+   systemctl start llama-cpp-server
    ```
 
 ## Conclusion
@@ -354,7 +354,7 @@ IMAGE_ROOTFS_EXTRA_SPACE = "10485760"  # 10GB
 - Team collaboration features
 - Desktop/server deployment
 
-### Choose **meta-ollama-cpp** if you need:
+### Choose **meta-llama-cpp** if you need:
 - Embedded/IoT deployment
 - Minimal resource footprint
 - CPU-optimized inference

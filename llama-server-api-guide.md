@@ -10,16 +10,16 @@ root@playground-arm64:~# wget -P /var/lib/ollama/models \
   https://huggingface.co/TheBloke/TinyLlama-1.1B-Chat-v1.0-GGUF/resolve/main/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf
 
 # Restart the service
-root@playground-arm64:~# systemctl restart ollama-cpp-server
+root@playground-arm64:~# systemctl restart llama-cpp-server
 ```
 
 
-Your `ollama-cpp-server` is running successfully! 🎉
+Your `llama-cpp-server` is running successfully! 🎉
 
 ```bash
-root@playground-arm64:~# systemctl status ollama-cpp-server
-* ollama-cpp-server.service - Ollama-compatible LLM Server (llama.cpp)
-     Loaded: loaded (/usr/lib/systemd/system/ollama-cpp-server.service; enabled; preset: enabled)
+root@playground-arm64:~# systemctl status llama-cpp-server
+* llama-cpp-server.service - Ollama-compatible LLM Server (llama.cpp)
+     Loaded: loaded (/usr/lib/systemd/system/llama-cpp-server.service; enabled; preset: enabled)
      Active: active (running) since Thu 2026-02-12 23:19:57 UTC; 12min ago
  Invocation: a96698329fb84f4885f906ec85950d6e
        Docs: https://github.com/ggerganov/llama.cpp
@@ -27,19 +27,19 @@ root@playground-arm64:~# systemctl status ollama-cpp-server
       Tasks: 10 (limit: 2317)
      Memory: 59.3M (limit: 4G, peak: 59.6M)
         CPU: 3min 33.457s
-     CGroup: /system.slice/ollama-cpp-server.service
+     CGroup: /system.slice/llama-cpp-server.service
              `-1050 /usr/bin/llama-server --host 0.0.0.0 --port 11434 --model /var/lib/ollama/models/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf --...
 
-Feb 12 23:28:28 playground-arm64 ollama-cpp-server[1050]: slot update_slots: id  2 | task 129 | prompt processing progress, n_tokens...1.000000
-Feb 12 23:28:28 playground-arm64 ollama-cpp-server[1050]: slot update_slots: id  2 | task 129 | prompt done, n_tokens = 24, batch.n_tokens = 24
-Feb 12 23:28:28 playground-arm64 ollama-cpp-server[1050]: slot init_sampler: id  2 | task 129 | init sampler, took 0.03 ms, tokens: ...tal = 24
-Feb 12 23:28:45 playground-arm64 ollama-cpp-server[1050]: slot print_timing: id  2 | task 129 |
-Feb 12 23:28:45 playground-arm64 ollama-cpp-server[1050]: prompt eval time =   12352.24 ms /    24 tokens (  514.68 ms per token,   ... second)
-Feb 12 23:28:45 playground-arm64 ollama-cpp-server[1050]:        eval time =    4331.56 ms /     8 tokens (  541.44 ms per token,   ... second)
-Feb 12 23:28:45 playground-arm64 ollama-cpp-server[1050]:       total time =   16683.80 ms /    32 tokens
-Feb 12 23:28:45 playground-arm64 ollama-cpp-server[1050]: slot      release: id  2 | task 129 | stop processing: n_tokens = 31, truncated = 0
-Feb 12 23:28:45 playground-arm64 ollama-cpp-server[1050]: srv  update_slots: all slots are idle
-Feb 12 23:28:45 playground-arm64 ollama-cpp-server[1050]: srv  log_server_r: done request: POST /v1/chat/completions 127.0.0.1 200
+Feb 12 23:28:28 playground-arm64 llama-cpp-server[1050]: slot update_slots: id  2 | task 129 | prompt processing progress, n_tokens...1.000000
+Feb 12 23:28:28 playground-arm64 llama-cpp-server[1050]: slot update_slots: id  2 | task 129 | prompt done, n_tokens = 24, batch.n_tokens = 24
+Feb 12 23:28:28 playground-arm64 llama-cpp-server[1050]: slot init_sampler: id  2 | task 129 | init sampler, took 0.03 ms, tokens: ...tal = 24
+Feb 12 23:28:45 playground-arm64 llama-cpp-server[1050]: slot print_timing: id  2 | task 129 |
+Feb 12 23:28:45 playground-arm64 llama-cpp-server[1050]: prompt eval time =   12352.24 ms /    24 tokens (  514.68 ms per token,   ... second)
+Feb 12 23:28:45 playground-arm64 llama-cpp-server[1050]:        eval time =    4331.56 ms /     8 tokens (  541.44 ms per token,   ... second)
+Feb 12 23:28:45 playground-arm64 llama-cpp-server[1050]:       total time =   16683.80 ms /    32 tokens
+Feb 12 23:28:45 playground-arm64 llama-cpp-server[1050]: slot      release: id  2 | task 129 | stop processing: n_tokens = 31, truncated = 0
+Feb 12 23:28:45 playground-arm64 llama-cpp-server[1050]: srv  update_slots: all slots are idle
+Feb 12 23:28:45 playground-arm64 llama-cpp-server[1050]: srv  log_server_r: done request: POST /v1/chat/completions 127.0.0.1 200
 Hint: Some lines were ellipsized, use -l to show in full.
 root@playground-arm64:~#
 ```
@@ -201,7 +201,7 @@ curl http://localhost:11434/v1/chat/completions \
 
 ### 1. Adjust Thread Count
 
-Edit `/etc/ollama-cpp/config.json`:
+Edit `/etc/llama-cpp/config.json`:
 ```json
 {
   "models": {
@@ -229,7 +229,7 @@ Or start llama-server manually:
 netstat -plant | grep 11434
 
 # Check server logs
-journalctl -u ollama-cpp-server -f
+journalctl -u llama-cpp-server -f
 
 # Test health endpoint
 curl http://localhost:11434/health

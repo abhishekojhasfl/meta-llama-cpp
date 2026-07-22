@@ -1,10 +1,10 @@
 #!/bin/bash
-# Test script for meta-ollama-cpp layer validation
+# Test script for meta-llama-cpp layer validation
 
 set -e
 
 echo "================================================"
-echo "meta-ollama-cpp Layer Validation Test"
+echo "meta-llama-cpp Layer Validation Test"
 echo "================================================"
 
 # Colors for output
@@ -41,17 +41,17 @@ test_pass "Yocto build environment detected: $BUILDDIR"
 
 # Test 1: Check if layer is added
 echo ""
-echo "Test 1: Checking if meta-ollama-cpp layer is added..."
-if bitbake-layers show-layers 2>/dev/null | grep -q "meta-ollama-cpp"; then
-    test_pass "Layer meta-ollama-cpp is present"
+echo "Test 1: Checking if meta-llama-cpp layer is added..."
+if bitbake-layers show-layers 2>/dev/null | grep -q "meta-llama-cpp"; then
+    test_pass "Layer meta-llama-cpp is present"
 else
-    test_fail "Layer meta-ollama-cpp is not added to bblayers.conf"
+    test_fail "Layer meta-llama-cpp is not added to bblayers.conf"
 fi
 
 # Test 2: Validate layer configuration
 echo ""
 echo "Test 2: Validating layer configuration..."
-if [ -f "$(bitbake-layers show-layers | grep meta-ollama-cpp | awk '{print $2}')/conf/layer.conf" ]; then
+if [ -f "$(bitbake-layers show-layers | grep meta-llama-cpp | awk '{print $2}')/conf/layer.conf" ]; then
     test_pass "layer.conf exists"
 else
     test_fail "layer.conf not found"
@@ -66,10 +66,10 @@ else
     test_fail "llama-cpp recipe not found or failed to parse"
 fi
 
-if bitbake-layers show-recipes ollama-cpp-server 2>/dev/null | grep -q "ollama-cpp-server"; then
-    test_pass "ollama-cpp-server recipe found and parsed"
+if bitbake-layers show-recipes llama-cpp-server 2>/dev/null | grep -q "llama-cpp-server"; then
+    test_pass "llama-cpp-server recipe found and parsed"
 else
-    test_fail "ollama-cpp-server recipe not found or failed to parse"
+    test_fail "llama-cpp-server recipe not found or failed to parse"
 fi
 
 # Test 4: Check dependencies
@@ -99,7 +99,7 @@ fi
 # Test 6: Check for required files in recipes
 echo ""
 echo "Test 6: Checking for required recipe files..."
-LAYER_PATH=$(bitbake-layers show-layers | grep meta-ollama-cpp | awk '{print $2}')
+LAYER_PATH=$(bitbake-layers show-layers | grep meta-llama-cpp | awk '{print $2}')
 
 if [ -f "$LAYER_PATH/recipes-llm/llama-cpp/llama-cpp_git.bb" ]; then
     test_pass "llama-cpp recipe file exists"
@@ -107,13 +107,13 @@ else
     test_fail "llama-cpp recipe file missing"
 fi
 
-if [ -f "$LAYER_PATH/recipes-llm/ollama-cpp-server/ollama-cpp-server_1.0.bb" ]; then
-    test_pass "ollama-cpp-server recipe file exists"
+if [ -f "$LAYER_PATH/recipes-llm/llama-cpp-server/llama-cpp-server_1.0.bb" ]; then
+    test_pass "llama-cpp-server recipe file exists"
 else
-    test_fail "ollama-cpp-server recipe file missing"
+    test_fail "llama-cpp-server recipe file missing"
 fi
 
-if [ -f "$LAYER_PATH/recipes-llm/ollama-cpp-server/files/ollama-cpp-server.service" ]; then
+if [ -f "$LAYER_PATH/recipes-llm/llama-cpp-server/files/llama-cpp-server.service" ]; then
     test_pass "systemd service file exists"
 else
     test_fail "systemd service file missing"
@@ -139,7 +139,7 @@ if [ $FAILED -eq 0 ]; then
     echo ""
     echo "Next steps:"
     echo "  1. Build llama-cpp: bitbake llama-cpp"
-    echo "  2. Build server: bitbake ollama-cpp-server"
+    echo "  2. Build server: bitbake llama-cpp-server"
     echo "  3. Build image: bitbake playground-ai-image"
     exit 0
 else

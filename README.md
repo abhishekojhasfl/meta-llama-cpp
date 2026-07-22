@@ -1,10 +1,10 @@
-# meta-ollama-cpp
+# meta-llama-cpp
 
-This README file contains information on the meta-ollama-cpp layer for Yocto Project.
+This README file contains information on the meta-llama-cpp layer for Yocto Project.
 
 ## Description
 
-The meta-ollama-cpp layer provides recipes for building llama.cpp with Ollama-compatible API support for embedded Linux systems. This layer enables running large language models efficiently on embedded devices with limited resources.
+The meta-llama-cpp layer provides recipes for building llama.cpp with Ollama-compatible API support for embedded Linux systems. This layer enables running large language models efficiently on embedded devices with limited resources.
 
 ## Dependencies
 
@@ -21,13 +21,13 @@ This layer depends on:
 
 ## Table of Contents
 
-I. Adding the meta-ollama-cpp layer to your build
+I. Adding the meta-llama-cpp layer to your build
 II. Recipes provided
 III. Configuration options
 
-## I. Adding the meta-ollama-cpp layer to your build
+## I. Adding the meta-llama-cpp layer to your build
 
-Run 'bitbake-layers add-layer meta-ollama-cpp' from your build directory.
+Run 'bitbake-layers add-layer meta-llama-cpp' from your build directory.
 
 Or manually add the layer to your bblayers.conf file:
 
@@ -38,15 +38,15 @@ BBLAYERS ?= " \
   /path/to/poky/meta-yocto-bsp \
   /path/to/meta-openembedded/meta-oe \
   /path/to/meta-openembedded/meta-python \
-  /path/to/meta-ollama-cpp \
+  /path/to/meta-llama-cpp \
 "
 ```
 
 ## II. Recipes provided
 
 * **llama-cpp** - Core llama.cpp library and utilities
-* **ollama-cpp-server** - Ollama-compatible server implementation
-* **ollama-cpp-models** - Optional recipe for packaging pre-downloaded models
+* **llama-cpp-server** - Ollama-compatible server implementation
+* **llama-cpp-models** - Optional recipe for packaging pre-downloaded models
 
 ## III. Configuration options
 
@@ -54,7 +54,7 @@ Add to your local.conf:
 
 ```bash
 # Enable llama.cpp in your image
-IMAGE_INSTALL:append = " llama-cpp ollama-cpp-server"
+IMAGE_INSTALL:append = " llama-cpp llama-cpp-server"
 
 # Optional: Increase rootfs space for models (in KB)
 IMAGE_ROOTFS_EXTRA_SPACE = "10485760"  # 10GB
@@ -71,7 +71,7 @@ IMAGE_ROOTFS_EXTRA_SPACE = "10485760"  # 10GB
 bitbake llama-cpp
 
 # Build the ollama-compatible server
-bitbake ollama-cpp-server
+bitbake llama-cpp-server
 
 # Build your image with llama-cpp included
 bitbake your-image-name
@@ -83,7 +83,7 @@ After booting your device:
 
 ```bash
 # Start the Ollama-compatible server
-systemctl start ollama-cpp-server
+systemctl start llama-cpp-server
 
 # Download a model (requires internet connectivity)
 curl -X POST http://localhost:11434/api/pull -d '{"name": "llama2:7b"}'

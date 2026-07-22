@@ -6,7 +6,7 @@ set -e
 # Configuration
 MODELS_DIR="${OLLAMA_MODELS:-/var/lib/ollama/models}"
 HOST="${OLLAMA_HOST:-0.0.0.0:11434}"
-CONFIG_FILE="${OLLAMA_CONFIG:-/etc/ollama-cpp/config.json}"
+CONFIG_FILE="${OLLAMA_CONFIG:-/etc/llama-cpp/config.json}"
 
 # Extract host and port
 IFS=':' read -r BIND_IP BIND_PORT <<< "$HOST"

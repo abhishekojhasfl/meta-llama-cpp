@@ -1,10 +1,10 @@
-# Integration Guide: meta-ollama-cpp with yocto-playground
+# Integration Guide: meta-llama-cpp with yocto-playground
 
-This guide explains how to integrate the `meta-ollama-cpp` layer into the Abhishekojha38/yocto-playground repository.
+This guide explains how to integrate the `meta-llama-cpp` layer into the Abhishekojha38/yocto-playground repository.
 
 ## Overview
 
-The `meta-ollama-cpp` layer provides llama.cpp integration with an Ollama-compatible API for running large language models on embedded Linux systems built with Yocto.
+The `meta-llama-cpp` layer provides llama.cpp integration with an Ollama-compatible API for running large language models on embedded Linux systems built with Yocto.
 
 ## Integration Steps
 
@@ -12,7 +12,7 @@ The `meta-ollama-cpp` layer provides llama.cpp integration with an Ollama-compat
 
 ```bash
 cd yocto-playground
-git submodule add <your-meta-ollama-cpp-repo-url> sources/meta-ollama-cpp
+git submodule add <your-meta-llama-cpp-repo-url> sources/meta-llama-cpp
 git submodule update --init --recursive
 ```
 
@@ -21,7 +21,7 @@ git submodule update --init --recursive
 Add to `yocto-playground/layers.conf`:
 
 ```
-sources/meta-ollama-cpp
+sources/meta-llama-cpp
 ```
 
 ### 3. Update build.conf
@@ -30,7 +30,7 @@ Add to `yocto-playground/build.conf` if needed:
 
 ```bash
 # Add llama-cpp to your image
-IMAGE_INSTALL:append = " llama-cpp ollama-cpp-server"
+IMAGE_INSTALL:append = " llama-cpp llama-cpp-server"
 
 # Increase rootfs space for AI models (10GB)
 IMAGE_ROOTFS_EXTRA_SPACE = "10485760"
@@ -57,9 +57,9 @@ runqemu playground-arm64 nographic slirp
 
 ## Architecture Comparison
 
-### meta-ollama vs meta-ollama-cpp
+### meta-ollama vs meta-llama-cpp
 
-| Feature | meta-ollama | meta-ollama-cpp |
+| Feature | meta-ollama | meta-llama-cpp |
 |---------|-------------|-----------------|
 | Base | Ollama binary (Go) | llama.cpp (C++) |
 | Size | Larger (~100MB+) | Smaller (~10MB) |
@@ -72,17 +72,17 @@ runqemu playground-arm64 nographic slirp
 ## Layer Structure
 
 ```
-meta-ollama-cpp/
+meta-llama-cpp/
 ├── conf/
 │   └── layer.conf              # Layer configuration
 ├── recipes-llm/
 │   ├── llama-cpp/
 │   │   └── llama-cpp_git.bb    # Core llama.cpp recipe
-│   └── ollama-cpp-server/
-│       ├── ollama-cpp-server_1.0.bb
+│   └── llama-cpp-server/
+│       ├── llama-cpp-server_1.0.bb
 │       └── files/
-│           ├── ollama-cpp-server.service
-│           ├── ollama-cpp-wrapper.sh
+│           ├── llama-cpp-server.service
+│           ├── llama-cpp-wrapper.sh
 │           └── config.json
 ├── recipes-image/
 │   └── images/
@@ -125,14 +125,14 @@ OLLAMA_HOST = "0.0.0.0:11434"
 
 ```bash
 # Using systemd
-systemctl start ollama-cpp-server
-systemctl enable ollama-cpp-server
+systemctl start llama-cpp-server
+systemctl enable llama-cpp-server
 
 # Check status
-systemctl status ollama-cpp-server
+systemctl status llama-cpp-server
 
 # View logs
-journalctl -u ollama-cpp-server -f
+journalctl -u llama-cpp-server -f
 ```
 
 ### API Examples
@@ -169,7 +169,7 @@ cd /var/lib/ollama/models
 wget https://huggingface.co/TheBloke/Llama-2-7B-Chat-GGUF/resolve/main/llama-2-7b-chat.Q4_K_M.gguf
 
 # Restart server to detect new model
-systemctl restart ollama-cpp-server
+systemctl restart llama-cpp-server
 ```
 
 ## Troubleshooting
@@ -189,7 +189,7 @@ bitbake-layers show-recipes llama-cpp
 
 ```bash
 # Check server logs
-journalctl -u ollama-cpp-server -n 100
+journalctl -u llama-cpp-server -n 100
 
 # Test llama.cpp directly
 llama-cli -m /var/lib/ollama/models/model.gguf -p "test prompt"

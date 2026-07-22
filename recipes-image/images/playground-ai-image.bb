@@ -35,7 +35,7 @@ IMAGE_INSTALL:append = " \
 # LLM/AI packages
 IMAGE_INSTALL:append = " \
     llama-cpp \
-    ollama-cpp-server \
+    llama-cpp-server \
     "
 
 # Networking
@@ -72,10 +72,10 @@ QUICK START:
    Example: /var/lib/ollama/models/llama-2-7b-chat.Q4_K_M.gguf
 
 2. Start the server:
-   systemctl start ollama-cpp-server
+   systemctl start llama-cpp-server
    
 3. Check status:
-   systemctl status ollama-cpp-server
+   systemctl status llama-cpp-server
    
 4. Test the API:
    curl http://localhost:11434/api/tags
@@ -97,8 +97,8 @@ COMMANDS:
 CONFIGURATION:
 -------------
 
-Service config: /etc/ollama-cpp/config.json
-Service unit:   /etc/systemd/system/ollama-cpp-server.service
+Service config: /etc/llama-cpp/config.json
+Service unit:   /etc/systemd/system/llama-cpp-server.service
 
 Environment variables:
 - OLLAMA_HOST: Server bind address (default: 0.0.0.0:11434)
@@ -119,7 +119,7 @@ LOGS:
 ----
 
 View server logs:
-  journalctl -u ollama-cpp-server -f
+  journalctl -u llama-cpp-server -f
 
 =============================================================================
 EOF

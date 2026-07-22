@@ -1,5 +1,5 @@
 # Example bbappend for customizing llama-cpp build
-# Place this file as: meta-ollama-cpp/recipes-llm/llama-cpp/llama-cpp_git.bbappend
+# Place this file as: meta-llama-cpp/recipes-llm/llama-cpp/llama-cpp_git.bbappend
 
 # Enable additional features for specific machines
 # This demonstrates how users can customize the build

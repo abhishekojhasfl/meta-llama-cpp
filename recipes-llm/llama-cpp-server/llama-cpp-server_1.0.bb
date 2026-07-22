@@ -8,12 +8,12 @@ RDEPENDS:${PN} = "llama-cpp bash ca-certificates curl"
 
 inherit systemd useradd
 
-SRC_URI = "file://ollama-cpp-server.service \
-           file://ollama-cpp-wrapper.sh \
+SRC_URI = "file://llama-cpp-server.service \
+           file://llama-cpp-wrapper.sh \
            file://config.json \
           "
 
-SYSTEMD_SERVICE:${PN} = "ollama-cpp-server.service"
+SYSTEMD_SERVICE:${PN} = "llama-cpp-server.service"
 SYSTEMD_AUTO_ENABLE = "enable"
 
 # Create ollama user and group
@@ -24,15 +24,15 @@ USERADD_PARAM:${PN} = "-r -g ollama -d /var/lib/ollama -s /bin/bash -c 'Ollama S
 do_install() {
     # Install systemd service
     install -d ${D}${systemd_unitdir}/system
-    install -m 0644 ${UNPACKDIR}/ollama-cpp-server.service ${D}${systemd_unitdir}/system/
+    install -m 0644 ${UNPACKDIR}/llama-cpp-server.service ${D}${systemd_unitdir}/system/
     
     # Install wrapper script
     install -d ${D}${bindir}
-    install -m 0755 ${UNPACKDIR}/ollama-cpp-wrapper.sh ${D}${bindir}/ollama-cpp-server
+    install -m 0755 ${UNPACKDIR}/llama-cpp-wrapper.sh ${D}${bindir}/llama-cpp-server
     
     # Install configuration
-    install -d ${D}${sysconfdir}/ollama-cpp
-    install -m 0644 ${UNPACKDIR}/config.json ${D}${sysconfdir}/ollama-cpp/
+    install -d ${D}${sysconfdir}/llama-cpp
+    install -m 0644 ${UNPACKDIR}/config.json ${D}${sysconfdir}/llama-cpp/
     
     # Create model storage directory
     install -d ${D}${localstatedir}/lib/ollama
@@ -41,7 +41,7 @@ do_install() {
 
 FILES:${PN} = "${bindir}/* \
                ${systemd_unitdir}/system/* \
-               ${sysconfdir}/ollama-cpp/* \
+               ${sysconfdir}/llama-cpp/* \
                ${localstatedir}/lib/ollama \
               "
 

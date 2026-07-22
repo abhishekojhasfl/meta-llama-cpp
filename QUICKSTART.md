@@ -1,4 +1,4 @@
-# Quick Start Guide: meta-ollama-cpp
+# Quick Start Guide: meta-llama-cpp
 
 ## 5-Minute Setup
 
@@ -13,12 +13,12 @@ source sources/poky/oe-init-build-env
 ### 1. Add the Layer
 
 ```bash
-# Add meta-ollama-cpp as a submodule (or clone it)
+# Add meta-llama-cpp as a submodule (or clone it)
 cd /path/to/yocto-playground
-git submodule add https://github.com/Abhishekojha38/meta-ollama-cpp sources/meta-ollama-cpp
+git submodule add https://github.com/Abhishekojha38/meta-llama-cpp sources/meta-llama-cpp
 
 # Add to layers.conf
-echo "sources/meta-ollama-cpp" >> layers.conf
+echo "sources/meta-llama-cpp" >> layers.conf
 ```
 
 ### 2. Configure Build
@@ -27,7 +27,7 @@ Edit `build.conf` or `conf/local.conf`:
 
 ```bash
 # Add packages to image
-IMAGE_INSTALL:append = " llama-cpp ollama-cpp-server"
+IMAGE_INSTALL:append = " llama-cpp llama-cpp-server"
 
 # Allocate space for models (10GB)
 IMAGE_ROOTFS_EXTRA_SPACE = "10485760"
@@ -56,7 +56,7 @@ bitbake -c cleansstate llama-cpp
 bitbake llama-cpp
 
 # View logs during runtime
-journalctl -u ollama-cpp-server -f
+journalctl -u llama-cpp-server -f
 ```
 
 ## Troubleshooting
@@ -71,7 +71,7 @@ bitbake llama-cpp -c fetch -c unpack -c configure
 **Server won't start:**
 ```bash
 # Check service status
-systemctl status ollama-cpp-server
+systemctl status llama-cpp-server
 
 # Check model permissions
 ls -la /var/lib/ollama/models
@@ -84,14 +84,14 @@ chown -R ollama:ollama /var/lib/ollama
 --ctx-size 1024  # instead of 2048
 
 # Limit systemd service memory
-# Edit ollama-cpp-server.service
+# Edit llama-cpp-server.service
 MemoryLimit=2G
 ```
 
 ## Next Steps
 
 - Read [INTEGRATION.md](INTEGRATION.md) for detailed integration
-- See [COMPARISON.md](COMPARISON.md) for meta-ollama vs meta-ollama-cpp
+- See [COMPARISON.md](COMPARISON.md) for meta-ollama vs meta-llama-cpp
 - Check [README.md](README.md) for full documentation
 - Browse recipes in `recipes-llm/` for customization
 
@@ -101,9 +101,9 @@ MemoryLimit=2G
 |-----------|----------|---------|
 | llama.cpp binary | `/usr/bin/llama-cli` | CLI inference |
 | Server binary | `/usr/bin/llama-server` | HTTP server |
-| Wrapper script | `/usr/bin/ollama-cpp-server` | Ollama-compatible |
+| Wrapper script | `/usr/bin/llama-cpp-server` | Ollama-compatible |
 | Models dir | `/var/lib/ollama/models/` | Model storage |
-| Config | `/etc/ollama-cpp/config.json` | Server config |
-| Service | `ollama-cpp-server.service` | Systemd unit |
+| Config | `/etc/llama-cpp/config.json` | Server config |
+| Service | `llama-cpp-server.service` | Systemd unit |
 
 Find models at: https://huggingface.co/models?library=gguf

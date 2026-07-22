@@ -1,7 +1,7 @@
-# meta-ollama-cpp Layer Structure
+# meta-llama-cpp Layer Structure
 
 ```
-meta-ollama-cpp/
+meta-llama-cpp/
 │
 ├── README.md                           # Main documentation
 ├── INTEGRATION.md                      # Integration guide for yocto-playground
@@ -17,11 +17,11 @@ meta-ollama-cpp/
 │   │   ├── llama-cpp_git.bb           # Main llama.cpp recipe (builds from source)
 │   │   └── llama-cpp_git.bbappend.example  # Example customization file
 │   │
-│   └── ollama-cpp-server/
-│       ├── ollama-cpp-server_1.0.bb   # Ollama-compatible server wrapper recipe
+│   └── llama-cpp-server/
+│       ├── llama-cpp-server_1.0.bb   # Ollama-compatible server wrapper recipe
 │       └── files/
-│           ├── ollama-cpp-server.service    # Systemd service unit
-│           ├── ollama-cpp-wrapper.sh        # Server wrapper script
+│           ├── llama-cpp-server.service    # Systemd service unit
+│           ├── llama-cpp-wrapper.sh        # Server wrapper script
 │           └── config.json                   # Server configuration
 │
 ├── recipes-image/                      # Image recipes
@@ -38,7 +38,7 @@ meta-ollama-cpp/
 
 - **README.md**: Main layer documentation with overview, dependencies, and usage
 - **INTEGRATION.md**: Step-by-step guide for integrating with yocto-playground
-- **COMPARISON.md**: Technical comparison between meta-ollama and meta-ollama-cpp
+- **COMPARISON.md**: Technical comparison between meta-ollama and meta-llama-cpp
 - **QUICKSTART.md**: Quick 5-minute setup guide
 - **COPYING.MIT**: MIT license for the layer
 
@@ -65,21 +65,21 @@ meta-ollama-cpp/
 - Shows how to enable BLAS, custom optimization flags
 - Machine-specific configurations
 
-#### ollama-cpp-server Recipe (`recipes-llm/ollama-cpp-server/`)
+#### llama-cpp-server Recipe (`recipes-llm/llama-cpp-server/`)
 
-**ollama-cpp-server_1.0.bb**:
+**llama-cpp-server_1.0.bb**:
 - Creates Ollama-compatible API wrapper
 - Installs systemd service
 - Creates ollama user/group
 - Sets up model storage directory
 
-**files/ollama-cpp-server.service**:
+**files/llama-cpp-server.service**:
 - Systemd unit file
 - Configures service to run as 'ollama' user
 - Sets environment variables (OLLAMA_HOST, OLLAMA_MODELS)
 - Resource limits (memory, CPU)
 
-**files/ollama-cpp-wrapper.sh**:
+**files/llama-cpp-wrapper.sh**:
 - Bash wrapper script
 - Provides Ollama-compatible API interface
 - Starts llama-server with appropriate parameters
@@ -94,7 +94,7 @@ meta-ollama-cpp/
 
 **playground-ai-image.bb**:
 - Complete AI-enabled Yocto image
-- Includes llama-cpp and ollama-cpp-server
+- Includes llama-cpp and llama-cpp-server
 - Development tools (git, curl, python3)
 - Large rootfs for model storage
 - Creates helpful README on device
@@ -143,18 +143,18 @@ meta-ollama-cpp/
 
 1. **Add as submodule**:
    ```bash
-   git submodule add <repo-url> sources/meta-ollama-cpp
+   git submodule add <repo-url> sources/meta-llama-cpp
    ```
 
 2. **Update layers.conf**:
    ```
-   sources/meta-ollama-cpp
+   sources/meta-llama-cpp
    ```
 
 3. **Configure build**:
    ```bash
    # In build.conf or local.conf
-   IMAGE_INSTALL:append = " llama-cpp ollama-cpp-server"
+   IMAGE_INSTALL:append = " llama-cpp llama-cpp-server"
    IMAGE_ROOTFS_EXTRA_SPACE = "10485760"
    ```
 
@@ -167,11 +167,11 @@ meta-ollama-cpp/
 
 ```bash
 # Validate layer
-./sources/meta-ollama-cpp/scripts/test-layer.sh
+./sources/meta-llama-cpp/scripts/test-layer.sh
 
 # Build individual packages
 bitbake llama-cpp
-bitbake ollama-cpp-server
+bitbake llama-cpp-server
 
 # Build complete image
 bitbake playground-ai-image
@@ -192,7 +192,7 @@ EXTRA_OECMAKE:append:x86-64 = " -DLLAMA_AVX512=ON"
 
 ### For Different Memory Constraints
 
-Edit `ollama-cpp-server.service`:
+Edit `llama-cpp-server.service`:
 ```ini
 # For 2GB devices
 MemoryLimit=2G
@@ -201,7 +201,7 @@ MemoryLimit=2G
 MemoryLimit=6G
 ```
 
-Edit `ollama-cpp-wrapper.sh`:
+Edit `llama-cpp-wrapper.sh`:
 ```bash
 # Smaller context for low memory
 --ctx-size 1024
@@ -252,7 +252,7 @@ playground-ai-image
     │   ├── cmake-native
     │   └── pkgconfig-native
     │
-    └── ollama-cpp-server
+    └── llama-cpp-server
         ├── llama-cpp (RDEPENDS)
         ├── bash
         └── ca-certificates
@@ -280,4 +280,4 @@ For issues or questions:
 - Check documentation: README.md, INTEGRATION.md, COMPARISON.md
 - Run test script: `scripts/test-layer.sh`
 - Review Yocto logs: `bitbake llama-cpp -c compile -v`
-- Check runtime logs: `journalctl -u ollama-cpp-server`
+- Check runtime logs: `journalctl -u llama-cpp-server`
