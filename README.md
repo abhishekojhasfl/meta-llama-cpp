@@ -82,15 +82,15 @@ bitbake your-image-name
 After booting your device:
 
 ```bash
-# Start the Ollama-compatible server
+# Start the server
 systemctl start llama-cpp-server
 
-# Download a model (requires internet connectivity)
-curl -X POST http://localhost:11434/api/pull -d '{"name": "llama2:7b"}'
+# Download a model manually (llama-server has no /api/pull equivalent)
+wget -P /var/lib/ollama/models \
+  https://huggingface.co/TheBloke/Llama-2-7B-Chat-GGUF/resolve/main/llama-2-7b-chat.Q4_K_M.gguf
 
-# Run inference
-curl -X POST http://localhost:11434/api/generate -d '{
-  "model": "llama2:7b",
+# Run inference (OpenAI-compatible API, not Ollama's native /api/generate)
+curl -X POST http://localhost:11434/v1/completions -d '{
   "prompt": "Hello, world!"
 }'
 ```

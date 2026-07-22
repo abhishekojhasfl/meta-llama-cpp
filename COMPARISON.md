@@ -191,34 +191,44 @@ do_install() {
 
 ## API Compatibility
 
+`llama-server` does **not** implement Ollama's native `/api/*` REST API. It exposes an
+OpenAI-compatible API instead. Clients written against Ollama's native API must be
+switched to the OpenAI-style endpoints below (see `llama-server-api-guide.md` for
+request/response examples).
+
 ### Supported Endpoints
 
-| Endpoint | meta-ollama | meta-llama-cpp |
-|----------|-------------|-----------------|
-| `/api/generate` | ✅ Full | ✅ Compatible |
-| `/api/chat` | ✅ Full | ✅ Compatible |
-| `/api/pull` | ✅ Full | ❌ Manual |
+| Ollama endpoint | meta-ollama | meta-llama-cpp equivalent |
+|-----------------|-------------|----------------------------|
+| `/api/generate` | ✅ Full | ❌ Not implemented — use `/v1/completions` |
+| `/api/chat` | ✅ Full | ❌ Not implemented — use `/v1/chat/completions` |
+| `/api/pull` | ✅ Full | ❌ Not implemented — manual GGUF download |
 | `/api/push` | ✅ Full | ❌ N/A |
-| `/api/create` | ✅ Full | ❌ Manual |
-| `/api/tags` | ✅ Full | ⚠️  Partial |
-| `/api/show` | ✅ Full | ⚠️  Limited |
+| `/api/create` | ✅ Full | ❌ Not implemented — manual GGUF placement |
+| `/api/tags` | ✅ Full | ❌ Not implemented — use `/v1/models` |
+| `/api/show` | ✅ Full | ❌ Not implemented |
 | `/api/copy` | ✅ Full | ❌ N/A |
 | `/api/delete` | ✅ Full | ⚠️  File delete |
-| `/api/embeddings` | ✅ Full | ✅ Compatible |
+| `/api/embeddings` | ✅ Full | ✅ Available via `/v1/embeddings` (OpenAI format) |
 
 ### API Limitations in meta-llama-cpp
 
-1. **Model Management:**
+1. **API Shape:**
+   - No native Ollama `/api/*` endpoints at all — only the OpenAI-compatible
+     `/v1/completions`, `/v1/chat/completions`, `/v1/models`, `/v1/embeddings` endpoints
+   - Existing Ollama clients need code changes, not just a different host/port
+
+2. **Model Management:**
    - No automatic model pulling from registry
    - Manual GGUF file placement required
    - No model versioning
 
-2. **Advanced Features:**
+3. **Advanced Features:**
    - No model creation from Modelfile
    - No model push to registry
    - Limited metadata support
 
-3. **Workarounds:**
+4. **Workarounds:**
    - Use `wget`/`curl` for model downloads
    - Script-based model management
    - File-based model organization

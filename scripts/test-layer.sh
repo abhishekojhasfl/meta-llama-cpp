@@ -75,10 +75,10 @@ fi
 # Test 4: Check dependencies
 echo ""
 echo "Test 4: Checking layer dependencies..."
-if bitbake-layers show-layers 2>/dev/null | grep -q "meta-oe"; then
-    test_pass "Dependency meta-oe is present"
+if bitbake-layers show-layers 2>/dev/null | grep -q "openembedded-layer"; then
+    test_pass "Dependency openembedded-layer (meta-oe) is present"
 else
-    test_fail "Dependency meta-oe is missing"
+    test_fail "Dependency openembedded-layer (meta-oe) is missing"
 fi
 
 if bitbake-layers show-layers 2>/dev/null | grep -q "meta-python"; then

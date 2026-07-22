@@ -5,7 +5,7 @@
 # This demonstrates how users can customize the build
 
 # Example: Enable BLAS for better performance (requires openblas)
-# EXTRA_OECMAKE:append = " -DLLAMA_BLAS=ON"
+# EXTRA_OECMAKE:append = " -DGGML_BLAS=ON"
 # DEPENDS:append = " openblas"
 
 # Example: Increase optimization level
@@ -24,7 +24,7 @@
 
 # Example: Architecture-specific optimizations
 # For Raspberry Pi 4
-# EXTRA_OECMAKE:append:raspberrypi4-64 = " -DLLAMA_NATIVE=ON"
+# EXTRA_OECMAKE:append:raspberrypi4-64 = " -DGGML_NATIVE=ON"
 
 # For specific x86-64 processors
-# EXTRA_OECMAKE:append:intel-corei7-64 = " -DLLAMA_AVX512=ON"
+# EXTRA_OECMAKE:append:intel-corei7-64 = " -DGGML_AVX512=ON"

@@ -184,10 +184,10 @@ bitbake playground-ai-image
 Edit `llama-cpp_git.bb` or create `.bbappend`:
 ```bitbake
 # Raspberry Pi 4
-EXTRA_OECMAKE:append:raspberrypi4-64 = " -DLLAMA_NATIVE=ON"
+EXTRA_OECMAKE:append:raspberrypi4-64 = " -DGGML_NATIVE=ON"
 
 # x86-64 with AVX512
-EXTRA_OECMAKE:append:x86-64 = " -DLLAMA_AVX512=ON"
+EXTRA_OECMAKE:append:x86-64 = " -DGGML_AVX512=ON"
 ```
 
 ### For Different Memory Constraints
@@ -255,7 +255,8 @@ playground-ai-image
     └── llama-cpp-server
         ├── llama-cpp (RDEPENDS)
         ├── bash
-        └── ca-certificates
+        ├── ca-certificates
+        └── jq
 ```
 
 ## License Information

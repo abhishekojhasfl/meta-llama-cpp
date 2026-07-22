@@ -137,24 +137,25 @@ journalctl -u llama-cpp-server -f
 
 ### API Examples
 
+llama-server exposes an OpenAI-compatible API, not Ollama's native `/api/*` routes
+(see `llama-server-api-guide.md` for the full reference):
+
 ```bash
 # List models
-curl http://localhost:11434/api/tags
+curl http://localhost:11434/v1/models
 
 # Generate text
-curl -X POST http://localhost:11434/api/generate \
+curl -X POST http://localhost:11434/v1/completions \
   -H "Content-Type: application/json" \
   -d '{
-    "model": "llama2:7b",
     "prompt": "Explain quantum computing",
     "stream": false
   }'
 
 # Chat completion
-curl -X POST http://localhost:11434/api/chat \
+curl -X POST http://localhost:11434/v1/chat/completions \
   -H "Content-Type: application/json" \
   -d '{
-    "model": "llama2:7b",
     "messages": [
       {"role": "user", "content": "Hello!"}
     ]

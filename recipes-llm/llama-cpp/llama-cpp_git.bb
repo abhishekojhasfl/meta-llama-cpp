@@ -17,22 +17,22 @@ S = "${UNPACKDIR}/git"
 EXTRA_OECMAKE = ""
 
 # Enable Metal backend for Apple Silicon (not applicable for most embedded)
-# EXTRA_OECMAKE += "-DLLAMA_METAL=ON"
+# EXTRA_OECMAKE += "-DGGML_METAL=ON"
 
 # For ARM64 with NEON support
-EXTRA_OECMAKE:append:aarch64 = " -DLLAMA_NATIVE=OFF -DLLAMA_BLAS=OFF"
+EXTRA_OECMAKE:append:aarch64 = " -DGGML_NATIVE=OFF -DGGML_BLAS=OFF"
 
 # For x86_64 with AVX2 support
-EXTRA_OECMAKE:append:x86-64 = " -DLLAMA_AVX2=ON -DLLAMA_FMA=ON"
+EXTRA_OECMAKE:append:x86-64 = " -DGGML_AVX2=ON -DGGML_FMA=ON"
 
 # Disable CUDA/ROCm for embedded systems
-EXTRA_OECMAKE += " -DLLAMA_CUBLAS=OFF -DLLAMA_HIPBLAS=OFF"
+EXTRA_OECMAKE += " -DGGML_CUDA=OFF -DGGML_HIP=OFF"
 
 # Enable server build
-EXTRA_OECMAKE += " -DLLAMA_SERVER_VERBOSE=ON -DBUILD_SHARED_LIBS=ON"
+EXTRA_OECMAKE += " -DBUILD_SHARED_LIBS=ON"
 
 # Disable some optional features to reduce dependencies
-EXTRA_OECMAKE += " -DLLAMA_CLBLAST=OFF"
+EXTRA_OECMAKE += " -DGGML_OPENCL=OFF"
 
 do_install:append() {
     # Install binaries

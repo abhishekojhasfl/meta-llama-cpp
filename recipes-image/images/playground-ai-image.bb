@@ -77,12 +77,11 @@ QUICK START:
 3. Check status:
    systemctl status llama-cpp-server
    
-4. Test the API:
-   curl http://localhost:11434/api/tags
-   
+4. Test the API (llama-server does not implement Ollama's native /api/*):
+   curl http://localhost:11434/v1/models
+
 5. Generate text:
-   curl -X POST http://localhost:11434/api/generate -d '{
-     "model": "llama2:7b",
+   curl -X POST http://localhost:11434/v1/completions -d '{
      "prompt": "Why is the sky blue?"
    }'
 
