@@ -84,9 +84,6 @@ meta-llama-cpp/
 │           ├── llama-cpp-server.service
 │           ├── llama-cpp-wrapper.sh
 │           └── config.json
-├── recipes-image/
-│   └── images/
-│       └── playground-ai-image.bb  # Example AI-enabled image
 └── README.md
 ```
 
