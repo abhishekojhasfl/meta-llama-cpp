@@ -4,7 +4,7 @@ HOMEPAGE = "https://github.com/ggerganov/llama.cpp"
 LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=223b26b3c1143120c87e2b13111d3e99"
 
-SRCREV = "914dde72babffc8aa2e04c97dafcec029a671b2e"
+SRCREV = "4310aa4f871c104698f6a6614a362bdec87c247a"
 SRC_URI = "git://github.com/ggml-org/llama.cpp.git;protocol=https;branch=master"
 
 DEPENDS = "curl"
@@ -15,9 +15,6 @@ S = "${UNPACKDIR}/git"
 
 # Architecture-specific optimizations
 EXTRA_OECMAKE = ""
-
-# Enable Metal backend for Apple Silicon (not applicable for most embedded)
-# EXTRA_OECMAKE += "-DGGML_METAL=ON"
 
 # For ARM64 with NEON support
 EXTRA_OECMAKE:append:aarch64 = " -DGGML_NATIVE=OFF -DGGML_BLAS=OFF"
