@@ -61,15 +61,9 @@ fi
 echo ""
 echo "Test 3: Checking recipe parsing..."
 if bitbake-layers show-recipes llama-cpp 2>/dev/null | grep -q "llama-cpp"; then
-    test_pass "llama-cpp recipe found and parsed"
+    test_pass "llama-cpp recipe found and parsed (also provides llama-cpp-server package)"
 else
     test_fail "llama-cpp recipe not found or failed to parse"
-fi
-
-if bitbake-layers show-recipes llama-cpp-server 2>/dev/null | grep -q "llama-cpp-server"; then
-    test_pass "llama-cpp-server recipe found and parsed"
-else
-    test_fail "llama-cpp-server recipe not found or failed to parse"
 fi
 
 # Test 4: Check dependencies
@@ -107,13 +101,7 @@ else
     test_fail "llama-cpp recipe file missing"
 fi
 
-if [ -f "$LAYER_PATH/recipes-llm/llama-cpp-server/llama-cpp-server_1.0.bb" ]; then
-    test_pass "llama-cpp-server recipe file exists"
-else
-    test_fail "llama-cpp-server recipe file missing"
-fi
-
-if [ -f "$LAYER_PATH/recipes-llm/llama-cpp-server/files/llama-cpp-server.service" ]; then
+if [ -f "$LAYER_PATH/recipes-llm/llama-cpp/files/llama-cpp-server.service" ]; then
     test_pass "systemd service file exists"
 else
     test_fail "systemd service file missing"
