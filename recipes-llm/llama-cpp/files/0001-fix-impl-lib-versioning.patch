@@ -1,3 +1,18 @@
+From: Abhishek Ojha <Abhishek.ojha@savoirfairelinux.com>
+Subject: [PATCH] fix impl lib versioning
+
+Set VERSION/SOVERSION on the internal "-impl" shared libraries (used by
+llama-batched-bench, llama-cli, llama-completion, llama-fit-params,
+llama-bench, llama-perplexity, llama-quantize and llama-server) so that
+they get the same versioned sonames as the other llama.cpp shared
+libraries. Without this, the impl libraries are installed unversioned,
+which breaks packaging assumptions that rely on consistent SONAME
+handling across all produced shared objects.
+
+Upstream-Status: Pending
+
+Signed-off-by: Abhishek Ojha <Abhishek.ojha@savoirfairelinux.com>
+
 diff --git a/tools/batched-bench/CMakeLists.txt b/tools/batched-bench/CMakeLists.txt
 index f6ed257f5..22dec1dd9 100644
 --- a/tools/batched-bench/CMakeLists.txt
