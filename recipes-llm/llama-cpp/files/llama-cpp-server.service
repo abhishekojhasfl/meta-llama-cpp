@@ -1,0 +1,16 @@
+[Unit]
+Description=llama Server: LiquidAI LFM2.5-Text-230M
+After=network.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/home/llama.cpp
+ExecStart=/usr/bin/llama-server \
+  -m /usr/share/edgeai/models/LFM2.5-230M-Q4_K_M.gguf
+
+Restart=on-failure
+RestartSec=5s
+
+[Install]
+WantedBy=multi-user.target

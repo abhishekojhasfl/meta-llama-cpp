@@ -7,6 +7,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=223b26b3c1143120c87e2b13111d3e99"
 
 SRC_URI = "git://github.com/ggml-org/llama.cpp.git;protocol=https;branch=master \
     file://0001-fix-impl-lib-versioning.patch \
+    file://llama-cpp-server.service \
 "
 SRCREV = "0324696b8e5fe340dc94b64714e4c9aab03084a2"
 
@@ -14,9 +15,17 @@ S = "${WORKDIR}/git"
 
 DEPENDS = "curl"
 
-inherit cmake pkgconfig
+inherit cmake pkgconfig systemd
 
-# CMake options below are defined upstream in llama.cpp (see /home/aojha/Practice/llama.cpp):
+# llama-cpp-server: systemd service that runs llama-server as an API daemon,
+# split out of ${PN} into its own package.
+PACKAGES =+ "${PN}-server"
+
+SYSTEMD_PACKAGES = "${PN}-server"
+SYSTEMD_SERVICE:${PN}-server = "llama-cpp-server.service"
+SYSTEMD_AUTO_ENABLE:${PN}-server = "enable"
+
+# CMake options below are defined upstream in llama.cpp :
 #   - GGML_* options: ggml/CMakeLists.txt
 #   - LLAMA_* options: CMakeLists.txt
 #
@@ -64,11 +73,19 @@ EXTRA_OECMAKE = "\
 
 do_install() {
     DESTDIR=${D} cmake --install ${B}
+
+    # Create a shared directory to hold models on the target
+    install -d ${D}${datadir}/edgeai/models
+
+    # Install the llama-cpp-server systemd service
+    install -d ${D}${systemd_unitdir}/system
+    install -m 0644 ${UNPACKDIR}/llama-cpp-server.service ${D}${systemd_unitdir}/system/
 }
 
 FILES:${PN} += " \
     ${bindir}/* \
     ${libdir}/*.so.* \
+    ${datadir}/edgeai/models \
 "
 
 FILES:${PN}-dev += " \
@@ -78,4 +95,9 @@ FILES:${PN}-dev += " \
     ${libdir}/cmake \
 "
 
+FILES:${PN}-server = " \
+    ${systemd_unitdir}/system/llama-cpp-server.service \
+"
+
 RDEPENDS:${PN} += "libcurl"
+RDEPENDS:${PN}-server += "${PN} bash ca-certificates curl jq"
